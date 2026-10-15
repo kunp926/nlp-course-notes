@@ -11,7 +11,8 @@
 ├── feedforward-network/
 │   └── NLP_f26_pytorch.ipynb            # 前馈神经网络：手写实现 + PyTorch Module
 ├── word-embeddings/
-│   └── WordEmbedding_Tutorials.ipynb     # 词向量：Skip-Gram / GloVe / FastText
+│   ├── WordEmbedding_Tutorials.ipynb     # 词向量：Skip-Gram / GloVe / FastText
+│   └── word2vec_pmi_matrix_factorization.md  # 理论笔记：PMI / 矩阵分解 / 低秩假设
 └── assignment/
     └── MDS5110_Assignment1.ipynb         # Assignment 1：CBoW 词向量训练与探索
 ```
@@ -49,6 +50,18 @@
   - 多义词（`king`）与语义关系（`king` ↔ `queen` 的余弦相似度）。
   - PCA 二维散点对比 `king / queen / man / woman / prince / princess` 的聚簇形态。
   - 内存与计算开销对比表（Word2Vec 最省、GloVe 居中、FastText 因子词开销最大）。
+
+**配套理论笔记** — `word-embeddings/word2vec_pmi_matrix_factorization.md`
+
+从数学角度解释 `king - man + woman = queen` 为什么成立，层层递进：
+
+- **分布假说**：词由它周围的"同伴"定义，用条件概率 $P(w\mid a)=P(w\mid b)$ 形式化。
+- **点互信息 PMI**：衡量词对共现相对随机独立的强度，以及如何从条件概率相等推导出 $\operatorname{PMI}(w,a)=\operatorname{PMI}(w,b)$。
+- **核心建模假设**：为什么用「词向量点积 ≈ PMI」（$\operatorname{PMI}(a,b)\approx\vec v_a\cdot\vec v_b$），以及它的动机。
+- **PMI 矩阵与 PPMI**：词对 PMI 构成的 $V\times V$ 方阵，以及实践中对负值截断的 PPMI。
+- **矩阵分解**：$\boldsymbol M\approx\boldsymbol V\boldsymbol V^\top$ 的性质、数字例子与推荐系统类比。
+- **秩与低秩假设**：用通俗例子解释矩阵的秩、低秩 vs 满秩，说明词共现由少数隐语义因子控制。
+- **局限性**：线性假设只是近似，词向量会复现语料中的社会偏见（如 `doctor - man + woman ≈ nurse`）。
 
 ### 4. Assignment 1 — `assignment/MDS5110_Assignment1.ipynb`
 
